@@ -144,6 +144,11 @@ describe("CORE19-09_quiz_random", function () {
             server.on('error', function (data) {
                 error_launch += data
             });
+            server.stderr.on('data', function (data) {
+                if (Utils.search("Error", data)){
+                    error_launch += data
+                }
+            });
             await to(timeout(T_WAIT * 1000));
             this.msg_err = `Error launching '${expected}'\n\t\t\tReceived: ${error_launch}`;
             if (error_launch.length) {
